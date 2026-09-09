@@ -1,0 +1,13 @@
+[project]
+name = "webagent"
+version = "0.1.0"
+description = "Summarize webpages with Obscura MCP, LangChain, and Ollama"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+	"fastapi>=0.116.0",
+	"langchain[mcp]==1.4.0a4",
+	"langchain-ollama>=1.0.0",
+	"python-dotenv>=1.1.0",
+	"uvicorn[standard]>=0.35.0",
+]
