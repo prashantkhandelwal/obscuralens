@@ -122,23 +122,26 @@ Open `http://localhost:5173`. Vite proxies `/api` requests to the API at
 
 ## Docker
 
-Build the image from the project root:
+The Compose stack runs the published ObscuraLens image, Ollama, and the Obscura
+MCP server. Pull the images and start the stack from the project root:
 
 ```powershell
-docker build -t obscuralens .
+docker compose pull
+docker compose up
 ```
 
-Ollama and Obscura run outside the container. On Docker Desktop, point the
-container at the host services:
+The first run also pulls the default `qwen3:0.6b` model. Later runs reuse the
+model from the `ollama-data` volume. Open `http://localhost:8000` after the
+services start.
+
+Choose another model by setting `OLLAMA_MODEL` before starting the stack:
 
 ```powershell
-docker run --rm -p 8000:8000 `
-	-e OLLAMA_HOST=http://host.docker.internal:11434 `
-	-e OBSCURA_MCP_URL=http://host.docker.internal:8080/mcp `
-	obscuralens
+$env:OLLAMA_MODEL = "qwen3:4b"
+docker compose up
 ```
 
-Open `http://localhost:8000`. The image builds the Svelte application and
-serves it from the same FastAPI process as the `/api` endpoint. The local
-`.env`, virtual environment, Node modules, and Obscura binaries are excluded
-from the image.
+Stop and remove the containers with `docker compose down`. Model data remains
+in the named volume; use `docker compose down --volumes` to remove it as well.
+The published ObscuraLens image serves the Svelte application and `/api`
+endpoint from the same FastAPI process.
