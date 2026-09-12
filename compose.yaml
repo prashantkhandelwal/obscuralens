@@ -1,6 +1,8 @@
 services:
   app:
-    image: ghcr.io/prashantkhandelwal/obscuralens:latest
+    build:
+      context: .
+    image: obscuralens:local
     ports:
       - "8000:8000"
     environment:
